@@ -9,7 +9,7 @@
 		<div class="container">
 	        <h1 class="text-center">Todo List</h1>
 	        <hr />
-	       <!--  <p th:text="|Happy ${today}|">Today</p> -->
+	        <p th:text="|Time: ${today}, ${month}|">Today</p>
 	        <table class="table table-bordered table-striped">
 	            <thead>
 	                <tr>
@@ -22,7 +22,7 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr th:each="item : ${todoItems}">
+	                <tr th:each="item : ${todoItems}" th:class="${item.complete} ? success : warning">
 	                    <td>
 	                        <div class="btn btn-group-sm" role="group">
 	                            <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>

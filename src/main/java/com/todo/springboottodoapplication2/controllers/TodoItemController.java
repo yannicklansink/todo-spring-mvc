@@ -1,6 +1,7 @@
 package com.todo.springboottodoapplication2.controllers;
 
 import java.time.Instant;
+import java.time.ZoneId;
 
 import javax.validation.Valid;
 
@@ -30,8 +31,21 @@ public class TodoItemController {
 		logger.debug("request to GET index");
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("todoItems", todoItemRepository.findAll());
-		
+		modelAndView.addObject("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek());
+		modelAndView.addObject("month", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
 		return modelAndView;
+	}
+	
+	@PostMapping("/todo")
+	public String createTodoItem(@Valid TodoItem todoItem, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "add-todo-item";
+		}
+		
+		todoItem.setCreatedDate(Instant.now());
+		todoItem.setModifiedDate(Instant.now());
+		todoItemRepository.save(todoItem);
+		return "redirect:/";
 	}
 	
 	@PostMapping("/todo/{id}")
@@ -45,5 +59,7 @@ public class TodoItemController {
         todoItemRepository.save(todoItem);
         return "redirect:/";
 	}
+	
+	
 	
 }

@@ -30,7 +30,6 @@ public class TodoItemDataLoader implements CommandLineRunner {
             todoItemRepository.save(todoItem1);
             todoItemRepository.save(todoItem2); 
         }
-
         logger.info("Number of TodoItems: {}", todoItemRepository.count());
     }
     
